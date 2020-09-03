@@ -1,11 +1,11 @@
 package mint.server.web;
 
+import mint.server.model.Response;
+import mint.server.service.CardService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -13,12 +13,14 @@ import javax.validation.Valid;
 @RequestMapping(value = "/card-scheme")
 public class CardController {
 
+    @Autowired
+    CardService cardService;
 
     @RequestMapping(value = "/verify", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
     @ResponseBody
-    public Response debitCardNewAccount(@RequestBody @Valid DebitCardNewAccountRequest request) {
+    public Response debitCardNewAccount(@RequestParam @Valid String bin) {
         Response response;
-        response = cardService.debitCardNewAccount(request);
+        response = cardService.getCardScheme(bin);
         return response;
     }
 }
